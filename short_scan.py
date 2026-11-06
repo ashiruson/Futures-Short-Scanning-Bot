@@ -4,8 +4,8 @@ import numpy as np
 from datetime import datetime, timezone
 
 # --- CONFIGURATION ---
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_BOT_TOKEN = os.getenv("8846768889:AAFHXUII1jro_OB_PHdaH1ejhGZuSuPJmV0")
+TELEGRAM_CHAT_ID = os.getenv("6378900964")
 GATE_SPOT_API = "https://api.gateio.ws/api/v4/spot/tickers"
 GATE_FUTURES_API = "https://api.gateio.ws/api/v4/futures/usdt/contracts"
 GATE_CANDLES_API = "https://api.gateio.ws/api/v4/spot/candlesticks"

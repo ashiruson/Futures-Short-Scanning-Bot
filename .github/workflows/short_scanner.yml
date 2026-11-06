@@ -24,7 +24,7 @@ jobs:
 
       - name: Run short scanner script
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{  8846768889:AAFHXUII1jro_OB_PHdaH1ejhGZuSuPJmV0 }}
+          TELEGRAM_CHAT_ID: ${{ 6378900964 }}
         run: |
           python short_scanner.py
