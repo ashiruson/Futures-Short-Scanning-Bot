@@ -62,7 +62,6 @@ class GateIoClient:
       if not candles or not isinstance(candles, list) or len(candles) < limit:
         return None
 
-      # Gate candlestick array: [timestamp, volume, close, high, low, open]
       return {
           "lows": [float(c[4]) for c in candles],
           "highs": [float(c[3]) for c in candles],
@@ -291,8 +290,7 @@ def main():
             "leverage_str": leverage_str,
             "risk_levels": risk_levels,
         })
-    except Exception as inner_e:
-      # Skip malformed ticker data without crashing the entire scan
+    except Exception:
       continue
 
   valid_candidates.sort(key=lambda x: x["growth_multiplier"], reverse=True)
