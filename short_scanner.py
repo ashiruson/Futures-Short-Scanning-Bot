@@ -52,8 +52,8 @@ class GateIoClient:
       return []
 
   @staticmethod
-  def get_historical_candles(currency_pair, interval="1h", limit=12):
-    """Fetches 12-hour historical OHLCV data."""
+  def get_historical_candles(currency_pair, interval="1h", limit=20):
+    """Fetches 20-hour historical OHLCV data (updated timeframe window)."""
     try:
       params = {"currency_pair": currency_pair, "interval": interval, "limit": limit}
       res = requests.get(GATE_CANDLES_API, params=params, timeout=10)
@@ -62,6 +62,7 @@ class GateIoClient:
       if not candles or not isinstance(candles, list) or len(candles) < limit:
         return None
 
+      # Gate candlestick array: [timestamp, volume, close, high, low, open]
       return {
           "lows": [float(c[4]) for c in candles],
           "highs": [float(c[3]) for c in candles],
@@ -264,7 +265,8 @@ def main():
       if quote_volume < 500000:
         continue
 
-      candles = GateIoClient.get_historical_candles(pair, interval="1h", limit=12)
+      # Updated lookback timeframe parameter set to 20 candles
+      candles = GateIoClient.get_historical_candles(pair, interval="1h", limit=20)
       if not candles:
         continue
 
@@ -277,19 +279,19 @@ def main():
         if leverage_num == 0:
           continue
 
-        risk_levels = RiskAndPsychologyEngine.calculate_levels(
-            candles, setup["current_price"], setup["growth_multiplier"], leverage_num
-        )
+      risk_levels = RiskAndPsychologyEngine.calculate_levels(
+          candles, setup["current_price"], setup["growth_multiplier"], leverage_num
+      )
 
-        valid_candidates.append({
-            "pair": pair,
-            "growth_multiplier": setup["growth_multiplier"],
-            "current_price": setup["current_price"],
-            "rsi": setup["rsi"],
-            "reversal_score": setup["reversal_score"],
-            "leverage_str": leverage_str,
-            "risk_levels": risk_levels,
-        })
+      valid_candidates.append({
+          "pair": pair,
+          "growth_multiplier": setup["growth_multiplier"],
+          "current_price": setup["current_price"],
+          "rsi": setup["rsi"],
+          "reversal_score": setup["reversal_score"],
+          "leverage_str": leverage_str,
+          "risk_levels": risk_levels,
+      })
     except Exception:
       continue
 
